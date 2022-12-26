@@ -1,11 +1,35 @@
 pipeline {
-    agent { dockerfile true }
+    agent any
     stages {
-        stage('Test') {
+        stage('Non-Parallel Stage') {
             steps {
-                sh 'node --version'
-                sh 'svn --version'
+                echo 'This stage will be executed first.'
+            }
+        }
+        stage('Parallel Stage') {
+            when {
+                branch 'main'
+            }
+            failFast true
+            parallel {
+                stage('Branch A') {
+                    agent {
+                        label "for-branch-a"
+                    }
+                    steps {
+                        echo "On Branch A"
+                    }
+                }
+                stage('Branch B') {
+                    agent {
+                        label "for-branch-b"
+                    }
+                    steps {
+                        echo "On Branch B"
+                    }
+                }
             }
         }
     }
 }
+步骤
