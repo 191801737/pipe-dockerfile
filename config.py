@@ -1,2 +1,3 @@
-print(BUILD_USER)
-print(GSLB)
+import os
+print(os.getenv("BUILD_USER"))
+print(os.getenv("GSLB"))
