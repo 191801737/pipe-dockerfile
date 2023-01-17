@@ -1,35 +1,23 @@
+
 pipeline {
-    agent any
+    agent {
+        agent any
+    }
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '10')
+        timestamps ()
+    }
+    parameters {
+        string(name: 'BUILD_USER', defaultValue: 'staging', description: 'Used to distinguish between different environments')
+        string(name: 'GSLB', defaultValue: 'gsb', description: 'gsb or pri')
+    }
     stages {
-        stage('Non-Parallel Stage') {
+        stage('pytest') {
             steps {
-                echo 'This stage will be executed first.'
-            }
-        }
-        stage('Parallel Stage') {
-            when {
-                branch 'main'
-            }
-            failFast true
-            parallel {
-                stage('Branch A') {
-                    agent {
-                        label "for-branch-a"
-                    }
-                    steps {
-                        echo "On Branch A"
-                    }
-                }
-                stage('Branch B') {
-                    agent {
-                        label "for-branch-b"
-                    }
-                    steps {
-                        echo "On Branch B"
-                    }
-                }
+                sh "./config.sh"
+                sh "python config.py"
             }
         }
     }
 }
-步骤
+
