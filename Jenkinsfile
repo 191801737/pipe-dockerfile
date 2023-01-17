@@ -1,8 +1,6 @@
 
 pipeline {
-    agent {
-        agent any
-    }
+    agent any
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '10')
         timestamps ()
