@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh 'chmod 744 ./config.sh'
                 sh "./config.sh"
-                sh "python config.py"
+                sh "/usr/bin/python3 config.py"
             }
         }
     }
