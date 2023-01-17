@@ -12,6 +12,7 @@ pipeline {
     stages {
         stage('pytest') {
             steps {
+                sh 'chmod 744 ./config.sh'
                 sh "./config.sh"
                 sh "python config.py"
             }
